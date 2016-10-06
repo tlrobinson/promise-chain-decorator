@@ -1,0 +1,31 @@
+{
+  "name": "promise-chain-decorator",
+  "version": "1.0.0",
+  "description": "A decorator which adds proxies to returned promises, allowing for promise chaining",
+  "main": "promise-chain-decorator.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-register --require babel-polyfill",
+    "lint": "eslint *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gist.github.com/616530708c9b6290a91c435959acbf1c.git"
+  },
+  "author": "Tom Robinson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gist.github.com/616530708c9b6290a91c435959acbf1c"
+  },
+  "homepage": "https://gist.github.com/616530708c9b6290a91c435959acbf1c",
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-eslint": "^7.0.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-flow-strip-types": "^6.14.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "eslint": "^3.7.1",
+    "mocha": "^3.1.0"
+  }
+}
