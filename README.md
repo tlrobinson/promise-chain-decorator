@@ -18,7 +18,7 @@ Example
     }
 
     class Baz extends Base {
-        buzz(s): string {
+        buzz(s) {
             return this.s + s;
         }
     }
