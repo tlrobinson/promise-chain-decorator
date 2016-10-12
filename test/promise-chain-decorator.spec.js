@@ -1,6 +1,6 @@
 import assert from "assert";
 
-import chain from "../promise-chain-decorator";
+import chain from "../src/promise-chain-decorator";
 
 class Base {
     constructor(s) {
@@ -20,11 +20,19 @@ class Bar extends Base {
     async baz(s) {
         return new Baz(this.s + s);
     }
+    @chain(() => Foo)
+    async foo(s) {
+        return new Foo(this.s + s);
+    }
 }
 class Foo extends Base {
     @chain(Bar)
     async bar(s) {
         return new Bar(this.s + s);
+    }
+    @chain(() => Foo)
+    async foo(s) {
+        return new Foo(this.s + s);
     }
 }
 
@@ -73,6 +81,18 @@ describe("chain()", () => {
         it ("returns a promise that resolves to the correct value", async () => {
             assert.equal(await new Foo("a").bar("b").baz("c").buzz("d"), "abcd");
         });
+    });
+
+    it ("should chain on itself", async () => {
+        assert.equal(await new Foo("a").foo("b").foo("c").foo("d").value(), "abcd");
+    });
+
+    it ("should chain cyclically", async () => {
+        assert.equal(await new Foo("a").bar("b").foo("c").bar("d").value(), "abcd");
+    });
+
+    it ("should chain cyclically the other direction", async () => {
+        assert.equal(await new Bar("b").foo("c").bar("d").foo("e").value(), "bcde");
     });
 
 })

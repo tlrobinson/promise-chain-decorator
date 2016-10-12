@@ -39,11 +39,33 @@ Example
 
     new Foo("a").bar("b").baz("c").buzz("d").then((result) => console.log(result));
 
+Recursion and cycles
+--------------------
 
-TODO
-----
+If a methods returns itself or another instance of itself, or an instance of a class defined after
+it's own class, the `@chain` decorator must be passed a method instead of the class itself, like so:
 
-* Handle cycles?
+```
+class Foo {
+    @chain(() => Foo)
+    async foo() {
+        // returns "this" or "new Foo" etc
+    }
+
+    @chain(() => Bar)
+    async bar() {
+        // returns "new Bar" etc
+    }
+}
+
+class Bar {
+    // ...
+}
+
+// now you can do this, etc:
+new Foo().bar().foo().foo().foo().bar()
+```
+
 
 License
 -------
