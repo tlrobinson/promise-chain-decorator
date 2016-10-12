@@ -1,6 +1,6 @@
 {
   "name": "promise-chain-decorator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A decorator which adds proxies to returned promises, allowing for promise chaining",
   "main": "dist/promise-chain-decorator.js",
   "scripts": {
