@@ -2,7 +2,7 @@ promise-chain-decorator
 =======================
 
 A simple to use decorator that automatically adds proxy methods to promises returned by a method,
-allowing you to easily chain
+allowing you to easily chain.
 
 Works for multiple levels.
 
@@ -42,12 +42,13 @@ Example
 Recursion and cycles
 --------------------
 
-If a methods returns itself or another instance of itself, or an instance of a class defined after
-it's own class, the `@chain` decorator must be passed a method instead of the class itself, like so:
+If a methods returns itself or another instance of itself, you can leave off the argument to the `@chain` decorator to indicate it returns an instance of itself, e.x. `@chain()`.
+
+If a method returns an instance of a class that is defined after it's own class, the `@chain` decorator must be passed a method that returns the constructor instead of the class itself, since it will be undefined, e.x. `@chain(() => AnotherClass)`.
 
 ```
 class Foo {
-    @chain(() => Foo)
+    @chain()
     async foo() {
         // returns "this" or "new Foo" etc
     }
@@ -58,6 +59,7 @@ class Foo {
     }
 }
 
+// Bar is defined after Foo
 class Bar {
     // ...
 }

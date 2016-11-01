@@ -34,6 +34,10 @@ class Foo extends Base {
     async foo(s) {
         return new Foo(this.s + s);
     }
+    @chain()
+    async foo1(s) {
+        return new Foo(this.s + s);
+    }
 }
 
 describe("chain()", () => {
@@ -87,6 +91,10 @@ describe("chain()", () => {
         assert.equal(await new Foo("a").foo("b").foo("c").foo("d").value(), "abcd");
     });
 
+    it ("should chain on itself implicitly", async () => {
+        assert.equal(await new Foo("a").foo1("b").foo1("c").foo1("d").value(), "abcd");
+    });
+
     it ("should chain cyclically", async () => {
         assert.equal(await new Foo("a").bar("b").foo("c").bar("d").value(), "abcd");
     });
@@ -95,4 +103,14 @@ describe("chain()", () => {
         assert.equal(await new Bar("b").foo("c").bar("d").foo("e").value(), "bcde");
     });
 
+    it ("should throw when passing undefined", () => {
+        assert.throws(() => {
+            class A {
+                @chain(B)
+                b() {}
+            }
+            class B {
+            }
+        });
+    });
 })

@@ -1,6 +1,10 @@
 /* @flow weak */
 
 export default function chain(ResultKlassOrGetter) {
+    if (arguments.length > 0 && ResultKlassOrGetter == null) {
+        throw new Error("Passed undefined to @chain() (try using the `@chain(() => Klass)` if Klass is defined later)")
+    }
+    
     let ResultKlass;
     const getResultKlass = () => {
         if (ResultKlass === undefined) {
@@ -19,6 +23,10 @@ export default function chain(ResultKlassOrGetter) {
     }
 
     return function (target, name, descriptor) {
+        // @chain()
+        if (ResultKlassOrGetter == undefined) {
+            ResultKlass = target.constructor;
+        }
         const original = descriptor.value;
         descriptor.value = function(...args) {
             return wrapPromise(getResultKlass, original.apply(this, args));

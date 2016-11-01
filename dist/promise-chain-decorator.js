@@ -7,6 +7,10 @@ exports.default = chain;
 /*  weak */
 
 function chain(ResultKlassOrGetter) {
+    if (arguments.length > 0 && ResultKlassOrGetter == null) {
+        throw new Error("Passed undefined to @chain() (try using the `@chain(() => Klass)` if Klass is defined later)");
+    }
+
     var ResultKlass = void 0;
     var getResultKlass = function getResultKlass() {
         if (ResultKlass === undefined) {
@@ -25,6 +29,10 @@ function chain(ResultKlassOrGetter) {
     };
 
     return function (target, name, descriptor) {
+        // @chain()
+        if (ResultKlassOrGetter == undefined) {
+            ResultKlass = target.constructor;
+        }
         var original = descriptor.value;
         descriptor.value = function () {
             for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
